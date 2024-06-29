@@ -1,0 +1,35 @@
+ServerFrameId: 2
+PlayerId: 0 1
+PlayerId: 2 1
+PlayerId: 1 1
+
+ServerFrameId: 3
+PlayerId: 0 2
+PlayerId: 1 2
+PlayerId: 2 2
+
+ServerFrameId: 4
+PlayerId: 1 3
+PlayerId: 2 3
+PlayerId: 0 3
+
+ServerFrameId: 5
+PlayerId: 1 4
+PlayerId: 2 4
+PlayerId: 0 4
+
+ServerFrameId: 6
+PlayerId: 2 5
+PlayerId: 0 5
+PlayerId: 1 5
+
+ServerFrameId: 7
+PlayerId: 1 6
+PlayerId: 2 6
+PlayerId: 0 6
+
+ServerFrameId: 8
+PlayerId: 0 7
+PlayerId: 2 7
+PlayerId: 1 7
+

@@ -1,0 +1,6 @@
+D:\workspace\rudp-test\Temp\bin\Debug\Assembly-CSharp.dll
+D:\workspace\rudp-test\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\workspace\rudp-test\obj\Debug\Assembly-CSharp.csproj.AssemblyReference.cache
+D:\workspace\rudp-test\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+D:\workspace\rudp-test\obj\Debug\Assembly-CSharp.dll
+D:\workspace\rudp-test\obj\Debug\Assembly-CSharp.pdb
