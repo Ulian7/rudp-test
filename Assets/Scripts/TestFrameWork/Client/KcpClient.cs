@@ -14,15 +14,15 @@ namespace TestFrameWork.Server
         public KcpClient(byte playerId, uint conv, int local_port, int remote_port, int cmd_count, string input_path, string output_path, Recorder recorder): base(playerId, cmd_count, input_path, recorder)
         {
             IPEndPoint end = new IPEndPoint(IPAddress.Loopback, remote_port);
-            kcpClient = new SimpleKcpClient(conv, local_port, end);
-            kcpClient.kcp.NoDelay(1, 10, 2, 1);
+            kcpClient = new SimpleKcpClient(conv, local_port, end, playerId, recorder);
+            kcpClient.kcp.NoDelay(1, 1, 2, 1);
             
             Task.Run(async () =>
             {
                 while (true)
                 {
                     kcpClient.kcp.Update(DateTimeOffset.UtcNow);
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                 }
             });
             

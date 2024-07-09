@@ -1,10 +1,7 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+﻿using System.Buffers;
 using UnityEngine;
+using System.Threading.Tasks;
+using TestFrameWork.Utils;
 
 namespace System.Net.Sockets.Kcp.Simple
 {
@@ -14,18 +11,22 @@ namespace System.Net.Sockets.Kcp.Simple
     public class SimpleKcpClient : IKcpCallback
     {
         UdpClient client;
-
+        private bool is_player = false;
+        private byte playerId;
+        private Recorder recorder;
         public SimpleKcpClient(uint conv, int port)
             : this(conv, port, null)
         {
 
         }
 
-        public SimpleKcpClient(uint conv, int port, IPEndPoint endPoint)
+        public SimpleKcpClient(uint conv, int port, IPEndPoint endPoint, byte playerId = 0, Recorder recorder = null)
         {
+            this.playerId = playerId;
             client = new UdpClient(port);
             kcp = new SimpleSegManager.Kcp(conv, this);
             this.EndPoint = endPoint;
+            this.recorder = recorder;
             BeginRecv();
         }
 
@@ -35,11 +36,15 @@ namespace System.Net.Sockets.Kcp.Simple
         public void Output(IMemoryOwner<byte> buffer, int avalidLength)
         {
             var s = buffer.Memory.Span.Slice(0, avalidLength).ToArray();
-            client.SendAsync(s, s.Length, EndPoint);
+            client.Send(s, s.Length, EndPoint);
+            if (recorder != null)
+            {
+                recorder.RecordSend(playerId);
+            }
             buffer.Dispose();
         }
 
-        public async void SendAsync(byte[] datagram, int bytes)
+        public void SendAsync(byte[] datagram, int bytes)
         {
             kcp.Send(datagram.AsSpan().Slice(0, bytes));
         }
@@ -49,7 +54,7 @@ namespace System.Net.Sockets.Kcp.Simple
             var (buffer, avalidLength) = kcp.TryRecv();
             while (buffer == null)
             {
-                await Task.Delay(10);
+                await Task.Delay(1);
                 (buffer, avalidLength) = kcp.TryRecv();
             }
             var s = buffer.Memory.Span.Slice(0, avalidLength).ToArray();
@@ -58,10 +63,16 @@ namespace System.Net.Sockets.Kcp.Simple
 
         private async void BeginRecv()
         {
-            var res = await client.ReceiveAsync();
-            EndPoint = res.RemoteEndPoint;
-            kcp.Input(res.Buffer);
-            BeginRecv();
+            IPEndPoint re = new IPEndPoint(IPAddress.Any, 0);
+            await Task.Run(async () =>
+            {
+                while (true)
+                {
+                    byte[] temp = client.Receive(ref re);
+                    EndPoint = re;
+                    kcp.Input(temp);
+                }
+            });
         }
     }
 }

@@ -7,10 +7,11 @@ namespace TestFrameWork.Utils
     public class Recorder
     {
         private Dictionary<int, timestamp[]> timeline;
-        private float[] send_count;
+        public float[] send_count;
         private string csvPath;
         private int frames;
         public float startTime;
+        private Logger logger;
         
 
         public Recorder(string path, int client_num, int frames)
@@ -57,7 +58,7 @@ namespace TestFrameWork.Utils
         {
             if (!Directory.Exists(csvPath))
                 Directory.CreateDirectory(csvPath);
-            Logger logger = new Logger(csvPath + "/redundant_rate.csv");
+            logger = new Logger(csvPath + "/redundant_rate.csv");
             for (int i = 0; i < send_count.Length; i++)
             {
                 float rate = send_count[i] / frames;

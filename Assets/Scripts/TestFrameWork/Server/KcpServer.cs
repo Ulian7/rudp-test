@@ -17,7 +17,7 @@ namespace TestFrameWork.Server
             for (int i = 0; i < client_num; i++)
             {
                 client_list.Add(new SimpleKcpClient((uint)(conv + i), port + i));
-                client_list[i].kcp.NoDelay(1, 10, 2, 1);
+                client_list[i].kcp.NoDelay(1, 1, 2, 1);
             }
 
             Task.Run(async () =>
@@ -29,7 +29,7 @@ namespace TestFrameWork.Server
                         client.kcp.Update(DateTimeOffset.UtcNow);
                     }
 
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                 }
             });
             ListenOnClients();
@@ -68,10 +68,9 @@ namespace TestFrameWork.Server
         {
             while (is_running)
             {
+                var res = await client.ReceiveAsync();
                 List<SyncCmd> CmdList;
                 bool newList = false;
-                var res = await client.ReceiveAsync();
-                
                 SyncCmd tempCmd = new SyncCmd();
                 NetReader netReader = new NetReader(res);
                 byte CmdCount = netReader.ReadByte();

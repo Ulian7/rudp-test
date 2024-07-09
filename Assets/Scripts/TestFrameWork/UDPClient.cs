@@ -31,11 +31,11 @@ namespace TestFrameWork.Utils
 
         public async void Listen()
         {
+            IPEndPoint re = new IPEndPoint(IPAddress.Any, 0);
             await Task.Run(async () =>
             {
                 while (true)
                 {
-                    IPEndPoint re = new IPEndPoint(IPAddress.Any, 0);
                     byte[] temp = udpClient.Receive(ref re);
                     lock (package_length)
                     {
