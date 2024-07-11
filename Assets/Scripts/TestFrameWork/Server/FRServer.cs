@@ -119,7 +119,7 @@ namespace TestFrameWork.Server
                 }
                 recorder.Record(playerId, tempCmd.ClientFrameId, Stage.server_recv);
                 
-                bool newList = false;
+                bool newList;
                 List<SyncCmd> CmdList;
                 lock (Map)
                 {

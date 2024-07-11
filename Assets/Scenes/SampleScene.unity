@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc5dd146028c3c4e913d8814f83d584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strategy: 0
-  lag: 100
-  drop: 0
+  strategy: 2
+  lag: 50
+  drop: 20
   client_num: 2
   logic_fps: 60
   view_fps: 60
