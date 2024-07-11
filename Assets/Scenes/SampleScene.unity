@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strategy: 2
-  lag: 50
-  drop: 20
+  lag: 100
+  drop: 0
   client_num: 2
   logic_fps: 60
   view_fps: 60
